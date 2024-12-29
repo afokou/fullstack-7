@@ -29,6 +29,12 @@ const Blog = () => {
       navigate('/')
     },
   })
+  const addCommentMutation = useMutation({
+    mutationFn: blogService.addComment,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['blogs'])
+    },
+  })
 
   if (blogResponse.isLoading) {
     return <div>loading data...</div>
@@ -79,6 +85,27 @@ const Blog = () => {
             </button>
           </div>
         )}
+      </div>
+      <div>
+        <h3>comments</h3>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            const newComment = e.target.new_comment.value
+            addCommentMutation.mutate({ blogId: blog.id, content: newComment })
+            e.target.new_comment.value = ''
+          }}
+        >
+          <input type="text" name="new_comment" />
+          <button>add comment</button>
+        </form>
+        <ul>
+          {blog.comments &&
+            blog.comments.map &&
+            blog.comments.map((comment, index) => (
+              <li key={index}>{comment.content}</li>
+            ))}
+        </ul>
       </div>
     </div>
   )
