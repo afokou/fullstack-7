@@ -10,7 +10,11 @@ const BlogsList = ({ user }) => {
 
   const blogs = useQuery({
     queryKey: ['blogs'],
-    queryFn: () => blogService.getAll(),
+    queryFn: async () => {
+      const allBlogs = await blogService.getAll()
+      allBlogs.sort((a, b) => b.likes - a.likes)
+      return allBlogs
+    },
   })
 
   if (blogs.isLoading) {

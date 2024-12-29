@@ -20,7 +20,8 @@ const createBlog = async (newObject) => {
   return response.data
 }
 
-const updateBlog = async (id, newObject) => {
+const updateBlog = async (newObject) => {
+  const id = newObject.id
   const response = await axios.put(`${baseUrl}/${id}`, newObject)
   return response.data
 }
