@@ -5,6 +5,7 @@ import Togglable from './Togglable.jsx'
 import { useQuery } from '@tanstack/react-query'
 import UserContext from '../UserContext.jsx'
 import { Link } from 'react-router-dom'
+import { Table } from 'react-bootstrap'
 
 const BlogsList = () => {
   const [createBlogVisible, setCreateBlogVisible] = useState(false)
@@ -40,17 +41,19 @@ const BlogsList = () => {
         <CreateNewBlog blogService={blogService} />
       </Togglable>
       <div>&nbsp;</div>
-      <div className="blogs">
-        {blogs.data &&
-          blogs.data.map &&
-          blogs.data.map((blog) => (
-            <div key={blog.id} style={blogStyle}>
-              <div className="title">
-                <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-              </div>
-            </div>
-          ))}
-      </div>
+      <Table stripped className="blogs">
+        <tbody>
+          {blogs.data &&
+            blogs.data.map &&
+            blogs.data.map((blog) => (
+              <tr key={blog.id} style={blogStyle}>
+                <td className="title">
+                  <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </Table>
     </div>
   )
 }

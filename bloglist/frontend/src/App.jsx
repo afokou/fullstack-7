@@ -9,9 +9,9 @@ import NotificationContext, {
 import UserContext, { userReducer } from './UserContext.jsx'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Users from './components/Users.jsx'
-import User from './components/User.jsx';
-import Blog from './components/Blog.jsx';
-import Menu from './components/Menu.jsx';
+import User from './components/User.jsx'
+import Blog from './components/Blog.jsx'
+import Menu from './components/Menu.jsx'
 
 const App = () => {
   const [notification, dispatchNotification] = useReducer(
@@ -37,31 +37,35 @@ const App = () => {
 
   if (!user) {
     return (
-      <UserContext.Provider value={[user, dispatchUser]}>
-        <LoginForm />
-      </UserContext.Provider>
+      <div className="container">
+        <UserContext.Provider value={[user, dispatchUser]}>
+          <LoginForm />
+        </UserContext.Provider>
+      </div>
     )
   }
 
   return (
-    <Router>
-      <NotificationContext.Provider
-        value={[notification, dispatchNotification]}
-      >
-        <UserContext.Provider value={[user, dispatchUser]}>
-          <Menu />
-          <Notification />
-          <h2>blogs</h2>
-          <div>&nbsp;</div>
-          <Routes>
-            <Route path="/" element={<BlogsList />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/users/:id" element={<User />} />
-            <Route path="/blogs/:id" element={<Blog />} />
-          </Routes>
-        </UserContext.Provider>
-      </NotificationContext.Provider>
-    </Router>
+    <div className="container">
+      <Router>
+        <NotificationContext.Provider
+          value={[notification, dispatchNotification]}
+        >
+          <UserContext.Provider value={[user, dispatchUser]}>
+            <Menu />
+            <Notification />
+            <h2>blogs</h2>
+            <div>&nbsp;</div>
+            <Routes>
+              <Route path="/" element={<BlogsList />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/users/:id" element={<User />} />
+              <Route path="/blogs/:id" element={<Blog />} />
+            </Routes>
+          </UserContext.Provider>
+        </NotificationContext.Provider>
+      </Router>
+    </div>
   )
 }
 

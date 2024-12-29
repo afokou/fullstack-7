@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import loginService from '../services/login.js'
 import UserContext from '../UserContext.jsx'
+import { Button, Form } from 'react-bootstrap'
 
 const LoginForm = () => {
   const [_, dispatchUser] = useContext(UserContext)
@@ -31,29 +32,31 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={handleLogin}>
+    <Form onSubmit={handleLogin}>
       <h2>Login to application</h2>
       {errorMessage && <div>{errorMessage}</div>}
-      <div>
-        username
-        <input
+      <Form.Group>
+        <Form.Label>username</Form.Label>
+        <Form.Control
           type="text"
           value={username}
           name="Username"
           onChange={({ target }) => setUsername(target.value)}
         />
-      </div>
-      <div>
-        password
-        <input
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>password</Form.Label>
+        <Form.Control
           type="password"
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
-      </div>
-      <button type="submit">login</button>
-    </form>
+      </Form.Group>
+      <Button variant="primary" type="submit">
+        login
+      </Button>
+    </Form>
   )
 }
 

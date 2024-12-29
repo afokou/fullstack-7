@@ -3,6 +3,7 @@ import blogService from '../services/blogs.js'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useContext } from 'react'
 import UserContext from '../UserContext.jsx'
+import { Button, Form } from 'react-bootstrap';
 
 const Blog = () => {
   const id = useParams().id
@@ -88,7 +89,7 @@ const Blog = () => {
       </div>
       <div>
         <h3>comments</h3>
-        <form
+        <Form
           onSubmit={(e) => {
             e.preventDefault()
             const newComment = e.target.new_comment.value
@@ -97,8 +98,8 @@ const Blog = () => {
           }}
         >
           <input type="text" name="new_comment" />
-          <button>add comment</button>
-        </form>
+          <Button variant="primary">add comment</Button>
+        </Form>
         <ul>
           {blog.comments &&
             blog.comments.map &&

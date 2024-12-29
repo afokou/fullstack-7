@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { useContext, useState } from 'react'
 import NotificationContext from '../NotificationContext.jsx'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Button, Form } from 'react-bootstrap';
 
 const CreateNewBlog = ({ blogService }) => {
   const [_, dispatchNotification] = useContext(NotificationContext)
@@ -39,7 +40,7 @@ const CreateNewBlog = ({ blogService }) => {
   }
 
   return (
-    <form onSubmit={addBlog} role="form">
+    <Form onSubmit={addBlog} role="form">
       <div>
         <label htmlFor="title">title</label>
         <input
@@ -60,10 +61,10 @@ const CreateNewBlog = ({ blogService }) => {
           onChange={({ target }) => setUrl(target.value)}
         />
       </div>
-      <button type="submit" role="submit">
+      <Button variant="primary" type="submit" role="submit">
         create
-      </button>
-    </form>
+      </Button>
+    </Form>
   )
 }
 
