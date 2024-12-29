@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
-import { setNotification } from '../reducers/notificationReducer.js'
-import { useDispatch } from 'react-redux'
+import { useContext, useState } from 'react'
+import NotificationContext from '../NotificationContext.jsx'
 
 const CreateNewBlog = ({ blogService, blogCreated }) => {
-  const dispatch = useDispatch()
+  const [_, dispatchNotification] = useContext(NotificationContext)
   const [title, setTitle] = useState('')
   const [url, setUrl] = useState('')
 
@@ -17,12 +16,22 @@ const CreateNewBlog = ({ blogService, blogCreated }) => {
       })
       setTitle('')
       setUrl('')
-      dispatch(setNotification('Blog added successfully', 5))
+      dispatchNotification({
+        type: 'SET_NOTIFICATION',
+        payload: 'Blog added successfully',
+      })
+      setTimeout(() => {
+        dispatchNotification({ type: 'CLEAR_NOTIFICATION' })
+      }, 5000)
       blogCreated(response)
     } catch (exception) {
-      dispatch(
-        setNotification(exception?.response?.data?.error ?? 'Unknown error', 5),
-      )
+      dispatchNotification({
+        type: 'SET_NOTIFICATION',
+        payload: exception?.response?.data?.error ?? 'Unknown error',
+      })
+      setTimeout(() => {
+        dispatchNotification({ type: 'CLEAR_NOTIFICATION' })
+      }, 5000)
     }
   }
 
