@@ -1,20 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import blogService from '../services/blogs.js'
 import Blog from './Blog.jsx'
 import CreateNewBlog from './CreateNewBlog.jsx'
 import Togglable from './Togglable.jsx'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 const BlogsList = ({ user }) => {
-  const [blogs, setBlogs] = useState([])
   const [createBlogVisible, setCreateBlogVisible] = useState(false)
 
-  useEffect(() => {
-    blogService.getAll().then((blogs) => {
-      // Sort the blogs by likes first then set them to state
-      blogs.sort((a, b) => b.likes - a.likes)
-      setBlogs(blogs)
-    })
-  }, [])
+  const queryClient = useQueryClient()
+  const blogs = useQuery({
+    queryKey: ['blogs'],
+    queryFn: () => blogService.getAll(),
+  })
+
+  if (blogs.isLoading) {
+    return <div>loading data...</div>
+  }
 
   return (
     <div>
@@ -36,35 +38,16 @@ const BlogsList = ({ user }) => {
         setVisible={setCreateBlogVisible}
         buttonLabel="new blog"
       >
-        <CreateNewBlog
-          blogService={blogService}
-          blogCreated={() => {
-            // Refresh blogs list after creation
-            blogService.getAll().then((blogs) => {
-              // Sort the blogs by likes first then set them to state
-              blogs.sort((a, b) => b.likes - a.likes)
-              setBlogs(blogs)
-              setCreateBlogVisible(false)
-            })
-          }}
-        />
+        <CreateNewBlog blogService={blogService} />
       </Togglable>
       <div>&nbsp;</div>
       <div className="blogs">
-        {blogs.map((blog) => (
+        {blogs.data.map((blog) => (
           <Blog
             key={blog.id}
             blogService={blogService}
             blog={blog}
             user={user}
-            blogUpdated={() => {
-              // Refresh blogs list after update
-              blogService.getAll().then((blogs) => {
-                // Sort the blogs by likes first then set them to state
-                blogs.sort((a, b) => b.likes - a.likes)
-                setBlogs(blogs)
-              })
-            }}
           />
         ))}
       </div>
