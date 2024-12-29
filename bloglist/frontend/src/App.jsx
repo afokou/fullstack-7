@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react'
+import { useEffect, useReducer } from 'react'
 import LoginForm from './components/LoginForm.jsx'
 import BlogsList from './components/BlogsList.jsx'
 import blogService from './services/blogs.js'
@@ -6,21 +6,20 @@ import Notification from './components/Notification.jsx'
 import NotificationContext, {
   notificationReducer,
 } from './NotificationContext.jsx'
-import { useQueryClient } from '@tanstack/react-query'
+import UserContext, { userReducer } from './UserContext.jsx'
 
 const App = () => {
-  const queryClient = useQueryClient()
   const [notification, dispatchNotification] = useReducer(
     notificationReducer,
     null,
   )
-  const [user, setUser] = useState(null)
+  const [user, dispatchUser] = useReducer(userReducer, null)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatchUser({ type: 'SET_USER', payload: user })
     }
   }, [])
 
@@ -32,13 +31,19 @@ const App = () => {
   }, [user])
 
   if (!user) {
-    return <LoginForm setUser={setUser} />
+    return (
+      <UserContext.Provider value={[user, dispatchUser]}>
+        <LoginForm />
+      </UserContext.Provider>
+    )
   }
 
   return (
     <NotificationContext.Provider value={[notification, dispatchNotification]}>
-      <Notification />
-      <BlogsList user={user} />
+      <UserContext.Provider value={[user, dispatchUser]}>
+        <Notification />
+        <BlogsList user={user} />
+      </UserContext.Provider>
     </NotificationContext.Provider>
   )
 }

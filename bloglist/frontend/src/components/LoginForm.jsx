@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import loginService from '../services/login.js'
+import UserContext from '../UserContext.jsx'
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = () => {
+  const [_, dispatchUser] = useContext(UserContext)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
@@ -18,7 +19,7 @@ const LoginForm = ({ setUser }) => {
         password,
       })
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-      setUser(user)
+      dispatchUser({ type: 'SET_USER', payload: user })
       setUsername('')
       setPassword('')
     } catch (exception) {
@@ -54,10 +55,6 @@ const LoginForm = ({ setUser }) => {
       <button type="submit">login</button>
     </form>
   )
-}
-
-LoginForm.propTypes = {
-  setUser: PropTypes.func.isRequired,
 }
 
 export default LoginForm
