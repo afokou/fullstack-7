@@ -41,13 +41,15 @@ const BlogsList = () => {
       </Togglable>
       <div>&nbsp;</div>
       <div className="blogs">
-        {blogs.data.map((blog) => (
-          <div key={blog.id} style={blogStyle}>
-            <div className="title">
-              <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+        {blogs.data &&
+          blogs.data.map &&
+          blogs.data.map((blog) => (
+            <div key={blog.id} style={blogStyle}>
+              <div className="title">
+                <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   )

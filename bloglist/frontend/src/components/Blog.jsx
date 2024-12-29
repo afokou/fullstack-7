@@ -1,11 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import blogService from '../services/blogs.js'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useContext } from 'react'
 import UserContext from '../UserContext.jsx'
 
 const Blog = () => {
   const id = useParams().id
+  const navigate = useNavigate()
   const [user] = useContext(UserContext)
   const queryClient = useQueryClient()
   const blogResponse = useQuery({
@@ -23,8 +24,9 @@ const Blog = () => {
   })
   const deleteBlogMutation = useMutation({
     mutationFn: blogService.deleteBlog,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['blogs'])
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['blogs'])
+      navigate('/')
     },
   })
 
@@ -37,6 +39,10 @@ const Blog = () => {
   }
 
   const blog = blogResponse.data
+
+  if (!blog) {
+    return
+  }
 
   const handleLike = async () => {
     const updatedBlog = { ...blog, likes: blog.likes + 1 }
@@ -54,8 +60,8 @@ const Blog = () => {
             like
           </button>
         </div>
-        <div>added by {blog.author.name}</div>
-        {user.username === blog.author.username && (
+        <div>added by {blog?.author?.name}</div>
+        {user.username === blog?.author?.username && (
           <div>
             <button
               className="deleteBtn"

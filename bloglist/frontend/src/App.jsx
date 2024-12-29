@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Users from './components/Users.jsx'
 import User from './components/User.jsx';
 import Blog from './components/Blog.jsx';
+import Menu from './components/Menu.jsx';
 
 const App = () => {
   const [notification, dispatchNotification] = useReducer(
@@ -48,19 +49,9 @@ const App = () => {
         value={[notification, dispatchNotification]}
       >
         <UserContext.Provider value={[user, dispatchUser]}>
+          <Menu />
           <Notification />
           <h2>blogs</h2>
-          <div>
-            {user.name} logged in{' '}
-            <button
-              onClick={() => {
-                window.localStorage.removeItem('loggedBlogappUser')
-                window.location.reload()
-              }}
-            >
-              logout
-            </button>
-          </div>
           <div>&nbsp;</div>
           <Routes>
             <Route path="/" element={<BlogsList />} />
