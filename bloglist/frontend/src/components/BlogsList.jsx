@@ -8,7 +8,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 const BlogsList = ({ user }) => {
   const [createBlogVisible, setCreateBlogVisible] = useState(false)
 
-  const queryClient = useQueryClient()
   const blogs = useQuery({
     queryKey: ['blogs'],
     queryFn: () => blogService.getAll(),

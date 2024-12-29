@@ -1,19 +1,17 @@
 import PropTypes from 'prop-types'
 import { useContext, useState } from 'react'
 import NotificationContext from '../NotificationContext.jsx'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-const CreateNewBlog = ({ blogService, blogCreated }) => {
+const CreateNewBlog = ({ blogService }) => {
   const [_, dispatchNotification] = useContext(NotificationContext)
   const [title, setTitle] = useState('')
   const [url, setUrl] = useState('')
-
-  const addBlog = async (event) => {
-    event.preventDefault()
-    try {
-      const response = await blogService.createBlog({
-        title: title,
-        url: url,
-      })
+  const queryClient = useQueryClient()
+  const createBlogMutation = useMutation({
+    mutationFn: blogService.createBlog,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['blogs'])
       setTitle('')
       setUrl('')
       dispatchNotification({
@@ -23,16 +21,21 @@ const CreateNewBlog = ({ blogService, blogCreated }) => {
       setTimeout(() => {
         dispatchNotification({ type: 'CLEAR_NOTIFICATION' })
       }, 5000)
-      blogCreated(response)
-    } catch (exception) {
+    },
+    onError: (error) => {
       dispatchNotification({
         type: 'SET_NOTIFICATION',
-        payload: exception?.response?.data?.error ?? 'Unknown error',
+        payload: error?.response?.data?.error || 'Failed to add blog',
       })
       setTimeout(() => {
         dispatchNotification({ type: 'CLEAR_NOTIFICATION' })
       }, 5000)
-    }
+    },
+  })
+
+  const addBlog = async (event) => {
+    event.preventDefault()
+    createBlogMutation.mutate({ title, url })
   }
 
   return (
@@ -62,10 +65,6 @@ const CreateNewBlog = ({ blogService, blogCreated }) => {
       </button>
     </form>
   )
-}
-
-CreateNewBlog.propTypes = {
-  blogCreated: PropTypes.func.isRequired,
 }
 
 export default CreateNewBlog
