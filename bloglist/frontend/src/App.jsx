@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import LoginForm from './components/LoginForm.jsx'
 import BlogsList from './components/BlogsList.jsx'
 import blogService from './services/blogs.js'
+import Notification from './components/Notification.jsx'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -25,7 +26,12 @@ const App = () => {
     return <LoginForm setUser={setUser} />
   }
 
-  return <BlogsList user={user} />
+  return (
+    <>
+      <Notification />
+      <BlogsList user={user} />
+    </>
+  )
 }
 
 export default App

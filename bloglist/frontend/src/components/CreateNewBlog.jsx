@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
+import { setNotification } from '../reducers/notificationReducer.js'
+import { useDispatch } from 'react-redux'
 
 const CreateNewBlog = ({ blogService, blogCreated }) => {
-  const [successMessage, setSuccessMessage] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const dispatch = useDispatch()
   const [title, setTitle] = useState('')
   const [url, setUrl] = useState('')
 
@@ -16,23 +17,17 @@ const CreateNewBlog = ({ blogService, blogCreated }) => {
       })
       setTitle('')
       setUrl('')
-      setSuccessMessage('Blog added successfully')
-      setTimeout(() => {
-        setSuccessMessage(null)
-      }, 5000)
+      dispatch(setNotification('Blog added successfully', 5))
       blogCreated(response)
     } catch (exception) {
-      setErrorMessage(exception.response.data.error)
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(
+        setNotification(exception?.response?.data?.error ?? 'Unknown error', 5),
+      )
     }
   }
 
   return (
     <form onSubmit={addBlog} role="form">
-      {successMessage && <div>{successMessage}</div>}
-      {errorMessage && <div>{errorMessage}</div>}
       <div>
         <label htmlFor="title">title</label>
         <input
