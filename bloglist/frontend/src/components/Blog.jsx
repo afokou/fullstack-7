@@ -3,7 +3,7 @@ import blogService from '../services/blogs.js'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useContext } from 'react'
 import UserContext from '../UserContext.jsx'
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Table } from 'react-bootstrap'
 
 const Blog = () => {
   const id = useParams().id
@@ -63,14 +63,15 @@ const Blog = () => {
         <div className="url">{blog.url}</div>
         <div className="likes">
           likes {blog.likes}{' '}
-          <button className="likeBtn" onClick={handleLike}>
+          <Button variant="secondary" className="likeBtn" onClick={handleLike}>
             like
-          </button>
+          </Button>
         </div>
         <div>added by {blog?.author?.name}</div>
         {user.username === blog?.author?.username && (
           <div>
-            <button
+            <Button
+              variant="danger"
               className="deleteBtn"
               onClick={async () => {
                 if (
@@ -83,12 +84,13 @@ const Blog = () => {
               }}
             >
               remove
-            </button>
+            </Button>
           </div>
         )}
       </div>
+      <hr />
       <div>
-        <h3>comments</h3>
+        <h3>Comments</h3>
         <Form
           onSubmit={(e) => {
             e.preventDefault()
@@ -97,16 +99,18 @@ const Blog = () => {
             e.target.new_comment.value = ''
           }}
         >
-          <input type="text" name="new_comment" />
+          <Form.Control type="text" name="new_comment" />
           <Button variant="primary">add comment</Button>
         </Form>
-        <ul>
-          {blog.comments &&
-            blog.comments.map &&
-            blog.comments.map((comment, index) => (
-              <li key={index}>{comment.content}</li>
-            ))}
-        </ul>
+        <Table stripped>
+          <tbody>
+            {blog.comments &&
+              blog.comments.map &&
+              blog.comments.map((comment, index) => (
+                <tr key={index}><td>{comment.content}</td></tr>
+              ))}
+          </tbody>
+        </Table>
       </div>
     </div>
   )

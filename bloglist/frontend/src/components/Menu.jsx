@@ -1,31 +1,37 @@
-import { Link } from 'react-router-dom'
+import Nav from 'react-bootstrap/Nav'
 import UserContext from '../UserContext.jsx'
 import { useContext } from 'react'
+import { Button, Navbar } from 'react-bootstrap'
 
 const Menu = () => {
   const [user] = useContext(UserContext)
 
   return (
-    <div
+    <Navbar
+      expand="lg"
+      className="bg-body-tertiary"
       style={{
         display: 'flex',
+        justifyItems: 'center',
+        alignItems: 'center',
         gap: '10px',
       }}
     >
-      <Link to="/">blogs</Link>
-      <Link to="/users">users</Link>
+      <Nav.Link href="/">Blogs</Nav.Link>
+      <Nav.Link href="/users">Users</Nav.Link>
       <div>
         {user.name} logged in{' '}
-        <button
+        <Button
+          variant="info"
           onClick={() => {
             window.localStorage.removeItem('loggedBlogappUser')
             window.location.reload()
           }}
         >
           logout
-        </button>
+        </Button>
       </div>
-    </div>
+    </Navbar>
   )
 }
 

@@ -41,26 +41,26 @@ const CreateNewBlog = ({ blogService }) => {
 
   return (
     <Form onSubmit={addBlog} role="form">
-      <div>
-        <label htmlFor="title">title</label>
-        <input
+      <Form.Group>
+        <Form.Label htmlFor="title">title</Form.Label>
+        <Form.Control
           id="title"
           type="text"
           value={title}
           name="Title"
           onChange={({ target }) => setTitle(target.value)}
         />
-      </div>
-      <div>
-        <label htmlFor="url">url</label>
-        <input
+      </Form.Group>
+      <Form.Group>
+        <Form.Label htmlFor="url">url</Form.Label>
+        <Form.Control
           id="url"
           type="text"
           value={url}
           name="Url"
           onChange={({ target }) => setUrl(target.value)}
         />
-      </div>
+      </Form.Group>
       <Button variant="primary" type="submit" role="submit">
         create
       </Button>
