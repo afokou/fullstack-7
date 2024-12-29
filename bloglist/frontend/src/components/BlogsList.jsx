@@ -1,14 +1,21 @@
 import { useContext, useState } from 'react'
 import blogService from '../services/blogs.js'
-import Blog from './Blog.jsx'
 import CreateNewBlog from './CreateNewBlog.jsx'
 import Togglable from './Togglable.jsx'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import UserContext from '../UserContext.jsx'
+import { Link } from 'react-router-dom'
 
 const BlogsList = () => {
-  const [user] = useContext(UserContext)
   const [createBlogVisible, setCreateBlogVisible] = useState(false)
+
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5,
+  }
 
   const blogs = useQuery({
     queryKey: ['blogs'],
@@ -35,12 +42,11 @@ const BlogsList = () => {
       <div>&nbsp;</div>
       <div className="blogs">
         {blogs.data.map((blog) => (
-          <Blog
-            key={blog.id}
-            blogService={blogService}
-            blog={blog}
-            user={user}
-          />
+          <div key={blog.id} style={blogStyle}>
+            <div className="title">
+              <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+            </div>
+          </div>
         ))}
       </div>
     </div>

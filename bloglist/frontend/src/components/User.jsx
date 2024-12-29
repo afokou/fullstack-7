@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import userService from '../services/users'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 const User = () => {
   const id = useParams().id
@@ -27,7 +27,11 @@ const User = () => {
       <ul>
         {user.data.blogs &&
           user.data.blogs.map &&
-          user.data.blogs.map((blog) => <li key={blog.id}>{blog.title}</li>)}
+          user.data.blogs.map((blog) => (
+            <li key={blog.id}>
+              <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+            </li>
+          ))}
       </ul>
     </div>
   )
