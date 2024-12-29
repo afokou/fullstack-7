@@ -7,6 +7,8 @@ import NotificationContext, {
   notificationReducer,
 } from './NotificationContext.jsx'
 import UserContext, { userReducer } from './UserContext.jsx'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Users from './components/Users.jsx'
 
 const App = () => {
   const [notification, dispatchNotification] = useReducer(
@@ -39,12 +41,32 @@ const App = () => {
   }
 
   return (
-    <NotificationContext.Provider value={[notification, dispatchNotification]}>
-      <UserContext.Provider value={[user, dispatchUser]}>
-        <Notification />
-        <BlogsList user={user} />
-      </UserContext.Provider>
-    </NotificationContext.Provider>
+    <Router>
+      <NotificationContext.Provider
+        value={[notification, dispatchNotification]}
+      >
+        <UserContext.Provider value={[user, dispatchUser]}>
+          <Notification />
+          <h2>blogs</h2>
+          <div>
+            {user.name} logged in{' '}
+            <button
+              onClick={() => {
+                window.localStorage.removeItem('loggedBlogappUser')
+                window.location.reload()
+              }}
+            >
+              logout
+            </button>
+          </div>
+          <div>&nbsp;</div>
+          <Routes>
+            <Route path="/" element={<BlogsList />} />
+            <Route path="/users" element={<Users />} />
+          </Routes>
+        </UserContext.Provider>
+      </NotificationContext.Provider>
+    </Router>
   )
 }
 

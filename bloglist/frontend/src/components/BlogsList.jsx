@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import blogService from '../services/blogs.js'
 import Blog from './Blog.jsx'
 import CreateNewBlog from './CreateNewBlog.jsx'
 import Togglable from './Togglable.jsx'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import UserContext from '../UserContext.jsx'
 
-const BlogsList = ({ user }) => {
+const BlogsList = () => {
+  const [user] = useContext(UserContext)
   const [createBlogVisible, setCreateBlogVisible] = useState(false)
 
   const blogs = useQuery({
@@ -23,19 +25,6 @@ const BlogsList = ({ user }) => {
 
   return (
     <div>
-      <h2>blogs</h2>
-      <div>
-        {user.name} logged in{' '}
-        <button
-          onClick={() => {
-            window.localStorage.removeItem('loggedBlogappUser')
-            window.location.reload()
-          }}
-        >
-          logout
-        </button>
-      </div>
-      <div>&nbsp;</div>
       <Togglable
         visible={createBlogVisible}
         setVisible={setCreateBlogVisible}
