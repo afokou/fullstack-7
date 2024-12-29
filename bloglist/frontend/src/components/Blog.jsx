@@ -7,7 +7,7 @@ const Blog = ({ blog, user, blogService, blogUpdated }) => {
     paddingLeft: 2,
     border: 'solid',
     borderWidth: 1,
-    marginBottom: 5
+    marginBottom: 5,
   }
   const [expanded, setExpanded] = useState(false)
 
@@ -20,22 +20,39 @@ const Blog = ({ blog, user, blogService, blogUpdated }) => {
   return (
     <div style={blogStyle}>
       <div className="title">
-        {blog.title} <button className="viewBtn" onClick={() => setExpanded(!expanded)}>{expanded ? 'hide' : 'view'}</button>
+        {blog.title}{' '}
+        <button className="viewBtn" onClick={() => setExpanded(!expanded)}>
+          {expanded ? 'hide' : 'view'}
+        </button>
       </div>
       {expanded && (
         <div>
           <div className="url">{blog.url}</div>
           <div className="likes">
-            likes {blog.likes} <button className="likeBtn" onClick={handleLike}>like</button>
+            likes {blog.likes}{' '}
+            <button className="likeBtn" onClick={handleLike}>
+              like
+            </button>
           </div>
           <div>{blog.author.name}</div>
           {user.username === blog.author.username && (
-            <div><button className="deleteBtn" onClick={async () => {
-              if (window.confirm(`Remove blog ${blog.title} by ${blog.author.name}`)) {
-                await blogService.deleteBlog(blog.id)
-                blogUpdated()
-              }
-            }}>remove</button></div>
+            <div>
+              <button
+                className="deleteBtn"
+                onClick={async () => {
+                  if (
+                    window.confirm(
+                      `Remove blog ${blog.title} by ${blog.author.name}`,
+                    )
+                  ) {
+                    await blogService.deleteBlog(blog.id)
+                    blogUpdated()
+                  }
+                }}
+              >
+                remove
+              </button>
+            </div>
           )}
         </div>
       )}
@@ -46,7 +63,7 @@ const Blog = ({ blog, user, blogService, blogUpdated }) => {
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  blogUpdated: PropTypes.func.isRequired
+  blogUpdated: PropTypes.func.isRequired,
 }
 
 export default Blog

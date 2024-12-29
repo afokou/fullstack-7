@@ -2,16 +2,16 @@ import axios from 'axios'
 const baseUrl = 'https://fullstack-4.fly.dev/api/blogs'
 
 let token = null
-const setToken = newToken => {
+const setToken = (newToken) => {
   token = `Bearer ${newToken}`
 }
 
 const getAll = () => {
   const request = axios.get(baseUrl)
-  return request.then(response => response.data)
+  return request.then((response) => response.data)
 }
 
-const createBlog = async newObject => {
+const createBlog = async (newObject) => {
   const config = {
     headers: { Authorization: token },
   }
@@ -25,7 +25,7 @@ const updateBlog = async (id, newObject) => {
   return response.data
 }
 
-const deleteBlog = async id => {
+const deleteBlog = async (id) => {
   const config = {
     headers: { Authorization: token },
   }

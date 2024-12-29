@@ -53,7 +53,9 @@ const CreateNewBlog = ({ blogService, blogCreated }) => {
           onChange={({ target }) => setUrl(target.value)}
         />
       </div>
-      <button type="submit" role="submit">create</button>
+      <button type="submit" role="submit">
+        create
+      </button>
     </form>
   )
 }

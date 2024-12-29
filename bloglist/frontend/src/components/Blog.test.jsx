@@ -5,19 +5,19 @@ import Blog from './Blog'
 
 test('renders title but not url or likes by default', async () => {
   const user = {
-    username: 'tester'
+    username: 'tester',
   }
 
   const blog = {
-    'title': 'React patterns',
-    'url': 'https://reactpatterns.com/',
-    'likes': 16,
-    'author': {
-      'username': 'michaelchan',
-      'name': 'Michael Chan',
-      'id': '676dc7dbf003d2c4658c91d9'
+    title: 'React patterns',
+    url: 'https://reactpatterns.com/',
+    likes: 16,
+    author: {
+      username: 'michaelchan',
+      name: 'Michael Chan',
+      id: '676dc7dbf003d2c4658c91d9',
     },
-    'id': '5a422a851b54a676234d17f7'
+    id: '5a422a851b54a676234d17f7',
   }
 
   const blogUpdatedHandler = vi.fn()
@@ -33,19 +33,19 @@ test('renders title but not url or likes by default', async () => {
 
 test('renders url and likes after view button clicked', async () => {
   const user = {
-    username: 'tester'
+    username: 'tester',
   }
 
   const blog = {
-    'title': 'React patterns',
-    'url': 'https://reactpatterns.com/',
-    'likes': 16,
-    'author': {
-      'username': 'michaelchan',
-      'name': 'Michael Chan',
-      'id': '676dc7dbf003d2c4658c91d9'
+    title: 'React patterns',
+    url: 'https://reactpatterns.com/',
+    likes: 16,
+    author: {
+      username: 'michaelchan',
+      name: 'Michael Chan',
+      id: '676dc7dbf003d2c4658c91d9',
     },
-    'id': '5a422a851b54a676234d17f7'
+    id: '5a422a851b54a676234d17f7',
   }
 
   const blogUpdatedHandler = vi.fn()
@@ -63,27 +63,34 @@ test('renders url and likes after view button clicked', async () => {
 
 test('like button clicked twice calls event handler twice', async () => {
   const user = {
-    username: 'tester'
+    username: 'tester',
   }
 
   const blog = {
-    'title': 'React patterns',
-    'url': 'https://reactpatterns.com/',
-    'likes': 16,
-    'author': {
-      'username': 'michaelchan',
-      'name': 'Michael Chan',
-      'id': '676dc7dbf003d2c4658c91d9'
+    title: 'React patterns',
+    url: 'https://reactpatterns.com/',
+    likes: 16,
+    author: {
+      username: 'michaelchan',
+      name: 'Michael Chan',
+      id: '676dc7dbf003d2c4658c91d9',
     },
-    'id': '5a422a851b54a676234d17f7'
+    id: '5a422a851b54a676234d17f7',
   }
 
   const blogUpdatedHandler = vi.fn()
   const mockBlogService = {
-    updateBlog: vi.fn()
+    updateBlog: vi.fn(),
   }
 
-  render(<Blog blog={blog} blogService={mockBlogService} blogUpdated={blogUpdatedHandler} user={user} />)
+  render(
+    <Blog
+      blog={blog}
+      blogService={mockBlogService}
+      blogUpdated={blogUpdatedHandler}
+      user={user}
+    />,
+  )
 
   const userSession = userEvent.setup()
   const button = screen.getByText('view')

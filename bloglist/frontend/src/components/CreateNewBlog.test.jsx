@@ -8,7 +8,12 @@ test('new blog form calls event handler with correct details', async () => {
   const mockBlogService = {
     createBlog: vi.fn((newBlog) => newBlog),
   }
-  render(<CreateNewBlog blogService={mockBlogService} blogCreated={blogCreatedHandler} />)
+  render(
+    <CreateNewBlog
+      blogService={mockBlogService}
+      blogCreated={blogCreatedHandler}
+    />,
+  )
 
   const titleInput = screen.getByLabelText('title')
   const urlInput = screen.getByLabelText('url')
