@@ -9,6 +9,7 @@ import NotificationContext, {
 import UserContext, { userReducer } from './UserContext.jsx'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Users from './components/Users.jsx'
+import User from './components/User.jsx';
 
 const App = () => {
   const [notification, dispatchNotification] = useReducer(
@@ -63,6 +64,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<BlogsList />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/users/:id" element={<User />} />
           </Routes>
         </UserContext.Provider>
       </NotificationContext.Provider>
